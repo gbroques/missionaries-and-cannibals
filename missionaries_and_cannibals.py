@@ -40,5 +40,28 @@ def operate_on_lists(a, b, operator_):
     return list(map(operator_, a, b))
 
 
+def is_state_valid(state):
+    if contains_negative(state):
+        return False
+    elif has_more_than_one_boat(state):
+        return False
+    elif has_more_cannibals_than_missionaries(state):
+        return False
+    else:
+        return True
+
+
+def contains_negative(list_):
+    return any(n < 0 for n in list_)
+
+
+def has_more_than_one_boat(state):
+    return state[2] > 1
+
+
+def has_more_cannibals_than_missionaries(state):
+    return state[1] > state[0]
+
+
 if __name__ == '__main__':
     main()

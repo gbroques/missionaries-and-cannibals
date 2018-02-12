@@ -28,6 +28,37 @@ class TestMissionariesAndCannibals(unittest.TestCase):
 
         self.assertEqual(expected_list, subtracted_list)
 
+    def test_is_state_valid(self):
+        valid_state1 = [3, 2, 0]
+        valid_state2 = [3, 1, 0]
+        valid_state3 = [2, 2, 0]
+
+        invalid_state1 = [3, 2, 2]
+        invalid_state2 = [0, -1, 13]
+        invalid_state3 = [2, 3, 0]
+        invalid_state4 = [1, 3, 0]
+
+        self.assertTrue(missionaries_and_cannibals.is_state_valid(valid_state1))
+        self.assertTrue(missionaries_and_cannibals.is_state_valid(valid_state2))
+        self.assertTrue(missionaries_and_cannibals.is_state_valid(valid_state3))
+
+        self.assertFalse(missionaries_and_cannibals.is_state_valid(invalid_state2))
+        self.assertFalse(missionaries_and_cannibals.is_state_valid(invalid_state1))
+        self.assertFalse(missionaries_and_cannibals.is_state_valid(invalid_state3))
+        self.assertFalse(missionaries_and_cannibals.is_state_valid(invalid_state4))
+
+    def test_contains_negative(self):
+        self.assertTrue(missionaries_and_cannibals.contains_negative([3, 4, -1]))
+        self.assertFalse(missionaries_and_cannibals.contains_negative([3, 4, 0]))
+
+    def test_has_more_than_one_boat(self):
+        self.assertTrue(missionaries_and_cannibals.has_more_than_one_boat([3, 3, 2]))
+        self.assertFalse(missionaries_and_cannibals.has_more_than_one_boat([3, 3, 1]))
+
+    def test_has_more_cannibals_than_missionaries(self):
+        self.assertTrue(missionaries_and_cannibals.has_more_cannibals_than_missionaries([2, 3, 1]))
+        self.assertFalse(missionaries_and_cannibals.has_more_cannibals_than_missionaries([2, 2, 1]))
+
 
 if __name__ == '__main__':
     unittest.main()
