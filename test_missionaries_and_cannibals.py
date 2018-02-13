@@ -59,6 +59,18 @@ class TestMissionariesAndCannibals(unittest.TestCase):
         self.assertTrue(missionaries_and_cannibals.has_more_cannibals_than_missionaries([2, 3, 1]))
         self.assertFalse(missionaries_and_cannibals.has_more_cannibals_than_missionaries([2, 2, 1]))
 
+    def test_get_actions(self):
+        expected_actions = {
+            (1, 0, 1),
+            (2, 0, 1),
+            (0, 1, 1),
+            (0, 2, 1),
+            (1, 1, 1)
+        }
+
+        actions = missionaries_and_cannibals.get_actions()
+        self.assertEqual(expected_actions, actions)
+
 
 if __name__ == '__main__':
     unittest.main()
