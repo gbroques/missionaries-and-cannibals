@@ -25,19 +25,19 @@ def main():
 
 
 def get_initial_state():
-    return [3, 3, 1]
+    return 3, 3, 1
 
 
-def add_lists(a, b):
-    return operate_on_lists(a, b, operator.add)
+def add_tuples(a, b):
+    return operate_on_tuples(a, b, operator.add)
 
 
-def subtract_lists(a, b):
-    return operate_on_lists(a, b, operator.sub)
+def subtract_tuples(a, b):
+    return operate_on_tuples(a, b, operator.sub)
 
 
-def operate_on_lists(a, b, operator_):
-    return list(map(operator_, a, b))
+def operate_on_tuples(a, b, operator_):
+    return tuple(map(operator_, a, b))
 
 
 def is_state_valid(state):
