@@ -36,23 +36,27 @@ def subtract_tuples(a, b):
     return operate_on_tuples(a, b, operator.sub)
 
 
-def operate_on_tuples(a, b, operator_):
-    return tuple(map(operator_, a, b))
+def operate_on_tuples(a, b, operation):
+    return tuple(map(operation, a, b))
 
 
-def is_state_valid(state):
+def is_state_valid(state, previous_state=None):
     if contains_negative(state):
         return False
     elif has_more_than_one_boat(state):
         return False
     elif has_more_cannibals_than_missionaries(state):
         return False
+    elif state > get_initial_state():
+        return False
+    elif state == previous_state:
+        return False
     else:
         return True
 
 
-def contains_negative(list_):
-    return any(n < 0 for n in list_)
+def contains_negative(collection):
+    return any(n < 0 for n in collection)
 
 
 def has_more_than_one_boat(state):
@@ -75,3 +79,22 @@ def get_actions():
 
 if __name__ == '__main__':
     main()
+
+
+def get_successors(state, operation, previous_state=None):
+    actions = get_actions()
+
+    apply_action = get_apply_action(state, operation)
+
+    possible_successors = map(apply_action, actions)
+
+    prune = get_prune(previous_state)
+    return set(filter(prune, possible_successors))
+
+
+def get_prune(previous_state):
+    return lambda possible_successor: is_state_valid(possible_successor, previous_state)
+
+
+def get_apply_action(state, operation):
+    return lambda action: operate_on_tuples(state, action, operation)
