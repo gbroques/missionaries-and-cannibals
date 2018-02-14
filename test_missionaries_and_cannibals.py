@@ -9,7 +9,9 @@ from missionaries_and_cannibals import get_successors
 from missionaries_and_cannibals import has_more_cannibals_than_missionaries
 from missionaries_and_cannibals import has_more_than_one_boat
 from missionaries_and_cannibals import is_state_valid
+from missionaries_and_cannibals import search
 from missionaries_and_cannibals import subtract_tuples
+from node import Node
 
 
 class TestMissionariesAndCannibals(unittest.TestCase):
@@ -104,6 +106,20 @@ class TestMissionariesAndCannibals(unittest.TestCase):
 
         self.assertEqual(expected_successors, successors)
 
+    def test_search_at_depth_one(self):
+        expected_children = [
+            Node((3, 2, 0)),
+            Node((3, 1, 0)),
+            Node((2, 2, 0))
+        ]
+        expected_tree = Node((3, 3, 1), expected_children)
+
+        results = search(1)
+
+        print(results['tree'])
+
+        self.assertFalse(results['success'])
+        self.assertEqual(results['tree'], expected_tree)
 
 if __name__ == '__main__':
     unittest.main()

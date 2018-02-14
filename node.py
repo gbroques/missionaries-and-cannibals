@@ -1,14 +1,23 @@
 class Node:
-    def __init__(self, state=(3, 3, 1), children=None):
+    def __init__(self, state, children=None):
         self.state = state
         self.children = []
         if children is not None:
-            for child in children:
-                self.append(child)
+            self.extend(children)
+
+    def extend(self, children):
+        for child in children:
+            self.append(child)
 
     def append(self, state):
         assert isinstance(state, Node)
         self.children.append(state)
+
+    def __repr__(self):
+        return self.state.__str__()
+
+    def __str__(self):
+        return self.state.__str__()
 
     def __eq__(self, other):
         if self.state != other.state:

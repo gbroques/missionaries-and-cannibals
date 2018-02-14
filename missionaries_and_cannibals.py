@@ -19,6 +19,8 @@ The list representing the initial state is [3, 3, 1]
 
 import operator
 
+from node import Node
+
 
 def main():
     initial_state = get_initial_state()
@@ -77,10 +79,6 @@ def get_actions():
     }
 
 
-if __name__ == '__main__':
-    main()
-
-
 def get_successors(state, operation, previous_state=None):
     actions = get_actions()
 
@@ -98,3 +96,19 @@ def get_prune(previous_state):
 
 def get_apply_action(state, operation):
     return lambda action: operate_on_tuples(state, action, operation)
+
+
+def search(max_depth):
+    initial_state = get_initial_state()
+    root = Node(initial_state)
+    successors = get_successors(root.state, operator.sub)
+    successor_nodes = map(lambda n: Node(n), successors)
+    root.extend(successor_nodes)
+    return {
+        'success': False,
+        'tree': root
+    }
+
+
+if __name__ == '__main__':
+    main()
