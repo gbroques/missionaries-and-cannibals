@@ -19,8 +19,6 @@ The list representing the initial state is [3, 3, 1]
 
 import operator
 
-from node import Node
-
 
 def main():
     initial_state = get_initial_state()

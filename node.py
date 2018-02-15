@@ -3,7 +3,7 @@ class Node:
     A node in a search tree. Contains a pointer to the parent,
     and the actual state of the node.
 
-    Source: https://github.com/aimacode/aima-python/blob/master/search.py
+    Adapted From: https://github.com/aimacode/aima-python/blob/master/search.py
     """
     def __init__(self, state, parent=None, action=None):
         self.state = state
