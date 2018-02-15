@@ -36,5 +36,6 @@ class TestNode(unittest.TestCase):
 
         self.assertEqual(root1, root2)
 
+
 if __name__ == '__main__':
     unittest.main()

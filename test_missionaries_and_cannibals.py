@@ -116,10 +116,30 @@ class TestMissionariesAndCannibals(unittest.TestCase):
 
         results = search(1)
 
-        print(results['tree'])
+        self.assertFalse(results['success'])
+        self.assertEqual(results['tree'], expected_tree)
+
+    def test_search_at_depth_two(self):
+        expected_children = [
+            Node((3, 2, 0)),
+            Node((3, 1, 0)),
+            Node((2, 2, 0))
+        ]
+        expected_children[1].append(Node((3, 2, 1)))
+        expected_children[2].append(Node((3, 2, 1)))
+        expected_tree = Node((3, 3, 1), expected_children)
+
+        results = search(2)
 
         self.assertFalse(results['success'])
         self.assertEqual(results['tree'], expected_tree)
+
+        # From (3, 2, 1) is (3, 0, 0)
+        # Then (3, 1, 1)
+        # Then (1, 1, 0)
+        # Then (2, 2, 1)
+        # Then (0, 2, 0)
+        # Then (0, 3, 1)
 
 if __name__ == '__main__':
     unittest.main()
