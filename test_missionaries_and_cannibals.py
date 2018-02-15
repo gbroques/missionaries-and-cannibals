@@ -9,9 +9,7 @@ from missionaries_and_cannibals import get_successors
 from missionaries_and_cannibals import has_more_cannibals_than_missionaries
 from missionaries_and_cannibals import has_more_than_one_boat
 from missionaries_and_cannibals import is_state_valid
-from missionaries_and_cannibals import search
 from missionaries_and_cannibals import subtract_tuples
-from node import Node
 
 
 class TestMissionariesAndCannibals(unittest.TestCase):
@@ -105,54 +103,6 @@ class TestMissionariesAndCannibals(unittest.TestCase):
         successors = get_successors(state, operator.add, previous_state=(3, 3, 1))
 
         self.assertEqual(expected_successors, successors)
-
-    def test_search_at_depth_one(self):
-        expected_tree = self.get_expected_tree_at_depth_one()
-
-        results = search(1)
-
-        self.assertFalse(results['success'])
-        self.assertEqual(results['tree'], expected_tree)
-
-    def test_search_at_depth_two(self):
-        expected_tree = self.get_expected_tree_at_depth_two()
-
-        results = search(2)
-
-        self.assertFalse(results['success'])
-        self.assertEqual(results['tree'], expected_tree)
-
-    @staticmethod
-    def get_expected_tree_at_depth_one():
-        expected_children = [
-            Node((3, 2, 0)),
-            Node((3, 1, 0)),
-            Node((2, 2, 0))
-        ]
-        expected_tree = Node((3, 3, 1), expected_children)
-        return expected_tree
-
-    @classmethod
-    def get_expected_tree_at_depth_two(cls):
-        expected_tree = cls.get_expected_tree_at_depth_one()
-        expected_tree.children[1].append(Node((3, 2, 1)))
-        expected_tree.children[2].append(Node((3, 2, 1)))
-        return expected_tree
-
-    @classmethod
-    def get_expected_tree_at_depth_three(cls):
-        """
-        From (3, 2, 1) is (3, 0, 0)
-          * Then (3, 1, 1)
-          * Then (1, 1, 0)
-          * Then (2, 2, 1)
-          * Then (0, 2, 0)
-          * Then (0, 3, 1)
-        """
-        expected_tree = cls.get_expected_tree_at_depth_two()
-        expected_tree.children[1].children[0].append(Node((3, 0, 0)))
-        expected_tree.children[2].children[0].append(Node((3, 0, 0)))
-        return expected_tree
 
 
 if __name__ == '__main__':

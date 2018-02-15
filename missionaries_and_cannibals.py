@@ -98,29 +98,5 @@ def get_apply_action(state, operation):
     return lambda action: operate_on_tuples(state, action, operation)
 
 
-def search(max_depth):
-    initial_state = get_initial_state()
-    root = Node(initial_state)
-    add_successors(0, root)
-    if max_depth > 1:
-        for child in root.children:
-            add_successors(1, child, root.state)
-
-    return {
-        'success': False,
-        'tree': root
-    }
-
-
-def add_successors(max_depth, node, previous_state=None):
-    successors = get_successors(node.state, get_operation(max_depth), previous_state)
-    successor_nodes = map(lambda n: Node(n), successors)
-    node.extend(successor_nodes)
-
-
-def get_operation(i):
-    return operator.sub if i % 2 == 0 else operator.add
-
-
 if __name__ == '__main__':
     main()
