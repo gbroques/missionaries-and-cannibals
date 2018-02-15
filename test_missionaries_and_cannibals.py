@@ -107,12 +107,7 @@ class TestMissionariesAndCannibals(unittest.TestCase):
         self.assertEqual(expected_successors, successors)
 
     def test_search_at_depth_one(self):
-        expected_children = [
-            Node((3, 2, 0)),
-            Node((3, 1, 0)),
-            Node((2, 2, 0))
-        ]
-        expected_tree = Node((3, 3, 1), expected_children)
+        expected_tree = self.get_expected_tree_at_depth_one()
 
         results = search(1)
 
@@ -120,26 +115,45 @@ class TestMissionariesAndCannibals(unittest.TestCase):
         self.assertEqual(results['tree'], expected_tree)
 
     def test_search_at_depth_two(self):
-        expected_children = [
-            Node((3, 2, 0)),
-            Node((3, 1, 0)),
-            Node((2, 2, 0))
-        ]
-        expected_children[1].append(Node((3, 2, 1)))
-        expected_children[2].append(Node((3, 2, 1)))
-        expected_tree = Node((3, 3, 1), expected_children)
+        expected_tree = self.get_expected_tree_at_depth_two()
 
         results = search(2)
 
         self.assertFalse(results['success'])
         self.assertEqual(results['tree'], expected_tree)
 
-        # From (3, 2, 1) is (3, 0, 0)
-        # Then (3, 1, 1)
-        # Then (1, 1, 0)
-        # Then (2, 2, 1)
-        # Then (0, 2, 0)
-        # Then (0, 3, 1)
+    @staticmethod
+    def get_expected_tree_at_depth_one():
+        expected_children = [
+            Node((3, 2, 0)),
+            Node((3, 1, 0)),
+            Node((2, 2, 0))
+        ]
+        expected_tree = Node((3, 3, 1), expected_children)
+        return expected_tree
+
+    @classmethod
+    def get_expected_tree_at_depth_two(cls):
+        expected_tree = cls.get_expected_tree_at_depth_one()
+        expected_tree.children[1].append(Node((3, 2, 1)))
+        expected_tree.children[2].append(Node((3, 2, 1)))
+        return expected_tree
+
+    @classmethod
+    def get_expected_tree_at_depth_three(cls):
+        """
+        From (3, 2, 1) is (3, 0, 0)
+          * Then (3, 1, 1)
+          * Then (1, 1, 0)
+          * Then (2, 2, 1)
+          * Then (0, 2, 0)
+          * Then (0, 3, 1)
+        """
+        expected_tree = cls.get_expected_tree_at_depth_two()
+        expected_tree.children[1].children[0].append(Node((3, 0, 0)))
+        expected_tree.children[2].children[0].append(Node((3, 0, 0)))
+        return expected_tree
+
 
 if __name__ == '__main__':
     unittest.main()
