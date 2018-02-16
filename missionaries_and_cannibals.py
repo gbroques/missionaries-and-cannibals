@@ -19,82 +19,74 @@ The list representing the initial state is [3, 3, 1]
 
 import operator
 
-
-def main():
-    initial_state = get_initial_state()
-
-
-def get_initial_state():
-    return 3, 3, 1
+from problem import Problem
+from tuple_util import operate_on_tuples
 
 
-def add_tuples(a, b):
-    return operate_on_tuples(a, b, operator.add)
+class MissionariesAndCannibals(Problem):
 
+    def actions(self, state):
+        all_actions = self.get_all_actions()
+        return self.get_valid_actions(state, all_actions)
 
-def subtract_tuples(a, b):
-    return operate_on_tuples(a, b, operator.sub)
+    @staticmethod
+    def get_all_actions():
+        return {
+            (1, 0, 1),
+            (2, 0, 1),
+            (0, 1, 1),
+            (0, 2, 1),
+            (1, 1, 1)
+        }
 
+    def get_valid_actions(self, state, all_actions):
+        is_action_valid_lambda = self.get_is_action_valid_lambda(state)
+        return set(filter(is_action_valid_lambda, all_actions))
 
-def operate_on_tuples(a, b, operation):
-    return tuple(map(operation, a, b))
+    def get_is_action_valid_lambda(self, state):
+        return lambda action: self.is_action_valid(state, action)
 
+    def is_action_valid(self, state, action):
+        operation = self.get_operation(state[2])
+        apply_action = self.get_apply_action(state, operation)
 
-def is_state_valid(state, previous_state=None):
-    if contains_negative(state):
-        return False
-    elif has_more_than_one_boat(state):
-        return False
-    elif has_more_cannibals_than_missionaries(state):
-        return False
-    elif state > get_initial_state():
-        return False
-    elif state == previous_state:
-        return False
-    else:
-        return True
+        result = apply_action(action)
 
+        return self.is_state_valid(result)
 
-def contains_negative(collection):
-    return any(n < 0 for n in collection)
+    @classmethod
+    def get_apply_action(cls, state, operation):
+        return lambda action: operate_on_tuples(state, action, operation)
 
+    def is_state_valid(self, state):
+        if self.contains_negative(state):
+            return False
+        elif self.has_more_than_one_boat(state):
+            return False
+        elif self.has_more_cannibals_than_missionaries(state):
+            return False
+        elif state > self.initial_state:
+            return False
+        else:
+            return True
 
-def has_more_than_one_boat(state):
-    return state[2] > 1
+    @staticmethod
+    def contains_negative(collection):
+        return any(n < 0 for n in collection)
 
+    @staticmethod
+    def has_more_than_one_boat(state):
+        return state[2] > 1
 
-def has_more_cannibals_than_missionaries(state):
-    return state[1] > state[0]
+    @staticmethod
+    def has_more_cannibals_than_missionaries(state):
+        return state[1] > state[0]
 
+    def result(self, state, action):
+        operation = self.get_operation(state[2])
+        return operate_on_tuples(state, action, operation)
 
-def get_actions():
-    return {
-        (1, 0, 1),
-        (2, 0, 1),
-        (0, 1, 1),
-        (0, 2, 1),
-        (1, 1, 1)
-    }
-
-
-def get_successors(state, operation, previous_state=None):
-    actions = get_actions()
-
-    apply_action = get_apply_action(state, operation)
-
-    possible_successors = map(apply_action, actions)
-
-    prune = get_prune(previous_state)
-    return set(filter(prune, possible_successors))
-
-
-def get_prune(previous_state):
-    return lambda possible_successor: is_state_valid(possible_successor, previous_state)
-
-
-def get_apply_action(state, operation):
-    return lambda action: operate_on_tuples(state, action, operation)
-
-
-if __name__ == '__main__':
-    main()
+    @staticmethod
+    def get_operation(boat):
+        """Subtract action from state if boat is on initial side of river."""
+        return operator.sub if boat == 1 else operator.add

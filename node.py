@@ -5,6 +5,7 @@ class Node:
 
     Adapted From: https://github.com/aimacode/aima-python/blob/master/search.py
     """
+
     def __init__(self, state, parent=None, action=None):
         self.state = state
         self.parent = parent
@@ -12,6 +13,14 @@ class Node:
         self.depth = 0
         if parent:
             self.depth = parent.depth + 1
+
+    def expand(self, problem):
+        """List the nodes reachable in one step from this node."""
+        return [self.child_node(problem, action) for action in problem.actions(self.state)]
+
+    def child_node(self, problem, action):
+        next_node = problem.result(self.state, action)
+        return Node(next_node, self, action)
 
     def solution(self):
         """Return the sequence of actions to go from the root to this node."""
@@ -23,7 +32,7 @@ class Node:
         while node:
             path_back.append(node)
             node = node.parent
-            return list(reversed(path_back))
+        return list(reversed(path_back))
 
     def __repr__(self):
         return '<Node {}>'.format(self.state)

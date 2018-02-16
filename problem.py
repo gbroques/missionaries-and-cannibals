@@ -7,19 +7,18 @@ class Problem:
     def __init__(self, initial_state, goal=None):
         """Specify the initial state, and possibly a goal state."""
         self.initial_state = initial_state
-        self.goal = goal
+        self.goal_state = goal
 
-    def get_actions(self, state):
-        """Return the actions that can be executed in the given state.
+    def actions(self, state):
+        """Return the actions that can be executed on the given state.
 
-        The result would typically be a list,
-        but if there a many actions,
+        The result would typically be a list, but if there a many actions,
         consider yielding them one at a time in an iterator.
         """
         raise NotImplementedError
 
-    def get_result(self, state, action):
-        """Return the state that results from executing the given action in the given state.
+    def result(self, state, action):
+        """Return the node that results from executing the given action on the given state.
 
         The action must be one of self.get_actions(state).
         """
@@ -27,4 +26,4 @@ class Problem:
 
     def is_goal_state(self, state):
         """Return True if the state is a a goal state."""
-        return isinstance(state, self.goal) and state == self.goal
+        return isinstance(state, self.goal_state) and state == self.goal_state
