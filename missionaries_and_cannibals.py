@@ -72,15 +72,31 @@ class MissionariesAndCannibals(Problem):
 
     @staticmethod
     def contains_negative(collection):
+        """Return True if any negative value exists in the collection."""
         return any(n < 0 for n in collection)
 
     @staticmethod
     def has_more_than_one_boat(state):
         return state[2] > 1
 
+    @classmethod
+    def has_more_cannibals_than_missionaries(cls, state):
+        return cls.more_cannibals_on_wrong_side(state) or cls.more_cannibals_on_right_side(state)
+
     @staticmethod
-    def has_more_cannibals_than_missionaries(state):
-        return state[1] > state[0]
+    def more_cannibals_on_wrong_side(state):
+        """Return True when more cannibals than missionaries exist on the wrong side of the river."""
+        return ((state[0] == 1 and state[1] == 3) or
+                (state[0] == 2 and state[1] == 3) or
+                (state[0] == 1 and state[1] == 2))
+
+    @staticmethod
+    def more_cannibals_on_right_side(state):
+        """Return True when more cannibals than missionaries exist on the right side of the river.
+
+        The "right" side of the river is the side opposite of the starting side.
+        """
+        return (state[0] == 2 and state[1] == 1) or (state[0] == 1 and state[1] == 0)
 
     def result(self, state, action):
         operation = self.get_operation(state[2])

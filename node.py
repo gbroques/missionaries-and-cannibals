@@ -19,6 +19,7 @@ class Node:
         return [self.child_node(problem, action) for action in problem.actions(self.state)]
 
     def child_node(self, problem, action):
+        """Get the child node from applying the given action."""
         next_node = problem.result(self.state, action)
         return Node(next_node, self, action)
 

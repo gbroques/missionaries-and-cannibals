@@ -1,5 +1,7 @@
 class Problem:
-    """Abstract class for a formal problem.
+    """Abstract class for a formal search problem.
+
+    The problem must be fully-observable, deterministic, and discrete.
 
     Adapted From: https://github.com/aimacode/aima-python/blob/master/search.py
     """
@@ -26,4 +28,4 @@ class Problem:
 
     def is_goal_state(self, state):
         """Return True if the state is a a goal state."""
-        return isinstance(state, self.goal_state) and state == self.goal_state
+        return state == self.goal_state

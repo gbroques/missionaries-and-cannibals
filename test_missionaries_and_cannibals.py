@@ -22,13 +22,21 @@ class TestMissionariesAndCannibals(unittest.TestCase):
 
     def test_is_state_valid_with_invalid_states(self):
         contains_negative_number = (0, -1, 0)
-        more_cannibals_than_missionaries = (2, 3, 0)
+        more_cannibals_than_missionaries_on_wrong_side1 = (1, 3, 0)
+        more_cannibals_than_missionaries_on_wrong_side2 = (2, 3, 0)
+        more_cannibals_than_missionaries_on_wrong_side3 = (1, 2, 0)
+        more_cannibals_than_missionaries_on_right_side1 = (2, 1, 0)
+        more_cannibals_than_missionaries_on_right_side2 = (1, 0, 0)
         more_than_one_boat = (3, 2, 2)
         more_cannibals_than_initial_state = (4, 3, 1)
         more_missionaries_than_initial_state = (3, 4, 1)
 
         self.assertFalse(self.problem.is_state_valid(contains_negative_number))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries))
+        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_wrong_side1))
+        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_wrong_side2))
+        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_wrong_side3))
+        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_right_side1))
+        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_right_side2))
         self.assertFalse(self.problem.is_state_valid(more_than_one_boat))
         self.assertFalse(self.problem.is_state_valid(more_cannibals_than_initial_state))
         self.assertFalse(self.problem.is_state_valid(more_missionaries_than_initial_state))
@@ -66,17 +74,18 @@ class TestMissionariesAndCannibals(unittest.TestCase):
 
         actions = self.problem.actions((3, 3, 1))
 
-        self.assertEquals(expected_actions, actions)
+        self.assertEqual(expected_actions, actions)
 
     def test_actions_from_second_state(self):
         expected_actions = {
             (1, 0, 1),
+            (0, 2, 1),
             (1, 1, 1)
         }
 
         actions = self.problem.actions((2, 2, 0))
 
-        self.assertEquals(expected_actions, actions)
+        self.assertEqual(expected_actions, actions)
 
     def test_result_on_initial_transition(self):
         expected_result = (2, 2, 0)
