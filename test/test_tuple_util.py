@@ -1,7 +1,7 @@
 import unittest
 
-from tuple_util import add_tuples
-from tuple_util import subtract_tuples
+from util import add_tuples
+from util import subtract_tuples
 
 
 class TestTupleUtil(unittest.TestCase):

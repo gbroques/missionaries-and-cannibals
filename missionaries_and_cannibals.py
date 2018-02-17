@@ -20,7 +20,7 @@ The list representing the initial state is [3, 3, 1]
 import operator
 
 from search import Problem
-from tuple_util import operate_on_tuples
+from util import operate_on_tuples
 
 
 class MissionariesAndCannibals(Problem):
