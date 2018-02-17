@@ -19,7 +19,7 @@ The list representing the initial state is [3, 3, 1]
 
 import operator
 
-from problem import Problem
+from search import Problem
 from tuple_util import operate_on_tuples
 
 

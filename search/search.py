@@ -7,7 +7,7 @@ https://github.com/aimacode/aima-python/blob/master/search.py
 
 import sys
 
-from node import Node
+from search import Node
 
 
 def iterative_deepening_search(problem):
