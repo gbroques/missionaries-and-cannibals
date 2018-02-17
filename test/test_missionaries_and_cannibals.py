@@ -1,57 +1,25 @@
 import unittest
 
-from main import get_goal_state
-from main import get_initial_state
 from missionaries_and_cannibals import MissionariesAndCannibals
+from state_constants import GOAL_STATE
+from state_constants import INITIAL_STATE
 
 
 class TestMissionariesAndCannibals(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        initial_state = get_initial_state()
-        goal_state = get_goal_state()
-        cls.problem = MissionariesAndCannibals(initial_state, goal_state)
+        cls.problem = MissionariesAndCannibals()
 
-    def test_is_state_valid_with_valid_states(self):
-        more_missionaries_than_cannibals = (3, 2, 0)
-        equal_number_of_missionaries_and_cannibals = (2, 2, 0)
+    def test_initial_state(self):
+        expected_initial_state = (3, 3, 1)
 
-        self.assertTrue(self.problem.is_state_valid(more_missionaries_than_cannibals))
-        self.assertTrue(self.problem.is_state_valid(equal_number_of_missionaries_and_cannibals))
+        self.assertEqual(expected_initial_state, INITIAL_STATE)
 
-    def test_is_state_valid_with_invalid_states(self):
-        contains_negative_number = (0, -1, 0)
-        more_cannibals_than_missionaries_on_wrong_side1 = (1, 3, 0)
-        more_cannibals_than_missionaries_on_wrong_side2 = (2, 3, 0)
-        more_cannibals_than_missionaries_on_wrong_side3 = (1, 2, 0)
-        more_cannibals_than_missionaries_on_right_side1 = (2, 1, 0)
-        more_cannibals_than_missionaries_on_right_side2 = (1, 0, 0)
-        more_than_one_boat = (3, 2, 2)
-        more_cannibals_than_initial_state = (4, 3, 1)
-        more_missionaries_than_initial_state = (3, 4, 1)
+    def test_goal_state(self):
+        expected_goal_state = (0, 0, 0)
 
-        self.assertFalse(self.problem.is_state_valid(contains_negative_number))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_wrong_side1))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_wrong_side2))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_wrong_side3))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_right_side1))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_missionaries_on_right_side2))
-        self.assertFalse(self.problem.is_state_valid(more_than_one_boat))
-        self.assertFalse(self.problem.is_state_valid(more_cannibals_than_initial_state))
-        self.assertFalse(self.problem.is_state_valid(more_missionaries_than_initial_state))
-
-    def test_contains_negative(self):
-        self.assertTrue(self.problem.contains_negative((3, 4, -1)))
-        self.assertFalse(self.problem.contains_negative((3, 4, 0)))
-
-    def test_has_more_than_one_boat(self):
-        self.assertTrue(self.problem.has_more_than_one_boat((3, 3, 2)))
-        self.assertFalse(self.problem.has_more_than_one_boat((3, 3, 1)))
-
-    def test_has_more_cannibals_than_missionaries(self):
-        self.assertTrue(self.problem.has_more_cannibals_than_missionaries((2, 3, 1)))
-        self.assertFalse(self.problem.has_more_cannibals_than_missionaries((2, 2, 1)))
+        self.assertEqual(expected_goal_state, GOAL_STATE)
 
     def test_get_all_actions(self):
         expected_actions = {

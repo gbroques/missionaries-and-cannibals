@@ -19,10 +19,16 @@ The list representing the initial state is [3, 3, 1].
 import operator
 
 from search import Problem
+from state import State
+from state_constants import GOAL_STATE
+from state_constants import INITIAL_STATE
 from util import operate_on_tuples
 
 
 class MissionariesAndCannibals(Problem):
+
+    def __init__(self):
+        super().__init__(INITIAL_STATE, GOAL_STATE)
 
     def actions(self, state):
         all_actions = self.get_all_actions()
@@ -51,51 +57,11 @@ class MissionariesAndCannibals(Problem):
 
         result = apply_action(action)
 
-        return self.is_state_valid(result)
+        return State.value_of(result).is_state_valid()
 
     @classmethod
     def get_apply_action(cls, state, operation):
         return lambda action: operate_on_tuples(state, action, operation)
-
-    def is_state_valid(self, state):
-        if self.contains_negative(state):
-            return False
-        elif self.has_more_than_one_boat(state):
-            return False
-        elif self.has_more_cannibals_than_missionaries(state):
-            return False
-        elif state > self.initial_state:
-            return False
-        else:
-            return True
-
-    @staticmethod
-    def contains_negative(collection):
-        """Return True if any negative value exists in the collection."""
-        return any(n < 0 for n in collection)
-
-    @staticmethod
-    def has_more_than_one_boat(state):
-        return state[2] > 1
-
-    @classmethod
-    def has_more_cannibals_than_missionaries(cls, state):
-        return cls.more_cannibals_on_wrong_side(state) or cls.more_cannibals_on_right_side(state)
-
-    @staticmethod
-    def more_cannibals_on_wrong_side(state):
-        """Return True when more cannibals than missionaries exist on the wrong side of the river."""
-        return ((state[0] == 1 and state[1] == 3) or
-                (state[0] == 2 and state[1] == 3) or
-                (state[0] == 1 and state[1] == 2))
-
-    @staticmethod
-    def more_cannibals_on_right_side(state):
-        """Return True when more cannibals than missionaries exist on the right side of the river.
-
-        The "right" side of the river is the side opposite of the starting side.
-        """
-        return (state[0] == 2 and state[1] == 1) or (state[0] == 1 and state[1] == 0)
 
     def result(self, state, action):
         operation = self.get_operation(state[2])

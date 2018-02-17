@@ -11,3 +11,8 @@ def subtract_tuples(a, b):
 
 def operate_on_tuples(a, b, operation):
     return tuple(map(operation, a, b))
+
+
+def contains_negative(collection):
+    """Return True if any negative value exists in the collection."""
+    return any(n < 0 for n in collection)
