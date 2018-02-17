@@ -1,5 +1,7 @@
 # Missionaries and Cannibals
 
+[![Build Status](https://travis-ci.org/gbroques/missionaries-and-cannibals.svg?branch=master)](https://travis-ci.org/gbroques/missionaries-and-cannibals)
+
 Solves the missionaries and cannibals problem with **iterative deepening search**.
 
 The problem is as follows:
