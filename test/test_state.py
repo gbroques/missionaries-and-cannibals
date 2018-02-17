@@ -1,6 +1,6 @@
 import unittest
 
-from state import State
+from missionaries_and_cannibals import State
 
 
 class TestState(unittest.TestCase):

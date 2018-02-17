@@ -1,12 +1,13 @@
 import operator
 
-from state_constants import INITIAL_STATE
 from util import contains_negative
 from util import operate_on_tuples
+from .state_constants import INITIAL_STATE
 
 
 class State:
     """Represents the state in the Missionaries and Cannibals problem."""
+
     def __init__(self, missionaries, cannibals, boat):
         self.value = (missionaries, cannibals, boat)
         self.missionaries = missionaries

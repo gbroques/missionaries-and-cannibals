@@ -19,9 +19,9 @@ The list representing the initial state is [3, 3, 1].
 import operator
 
 from search import Problem
-from state import State
-from state_constants import GOAL_STATE
-from state_constants import INITIAL_STATE
+from .state import State
+from .state_constants import GOAL_STATE
+from .state_constants import INITIAL_STATE
 
 
 class MissionariesAndCannibals(Problem):
