@@ -5,7 +5,17 @@ Source:
 https://github.com/aimacode/aima-python/blob/master/search.py
 """
 
+import sys
+
 from node import Node
+
+
+def iterative_deepening_search(problem):
+    """Iteratively search greater depths of the search tree to find the goal state."""
+    for depth in range(sys.maxsize):
+        result = depth_limited_search(problem, depth)
+        if result != 'cutoff':
+            return result
 
 
 def depth_limited_search(problem, limit=50):
