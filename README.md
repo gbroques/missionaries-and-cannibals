@@ -21,4 +21,5 @@ The program outputs the 11 step path to the goal state to the screen.
 
 ## How to Run
 `python main.py`
+
 Please run with Python 3. The program was written with Python **3.6.3**.
