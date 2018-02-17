@@ -17,7 +17,7 @@ class State:
     @classmethod
     def value_of(cls, state):
         if not cls.__is_valid_tuple(state):
-            raise ValueError("State must be a tuple with 3 elements.")
+            raise ValueError(str(state) + " must be a tuple with 3 elements.")
         return State(state[0], state[1], state[2])
 
     def is_valid(self):
