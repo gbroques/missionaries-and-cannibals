@@ -10,7 +10,7 @@ def main():
 
 def print_path(path):
     for node in path:
-        print(node.state)
+        print(node.state.value)
 
 
 if __name__ == '__main__':

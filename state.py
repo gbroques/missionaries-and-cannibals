@@ -1,21 +1,25 @@
+import operator
+
 from state_constants import INITIAL_STATE
 from util import contains_negative
+from util import operate_on_tuples
 
 
 class State:
+    """Represents the state in the Missionaries and Cannibals problem."""
     def __init__(self, missionaries, cannibals, boat):
         self.value = (missionaries, cannibals, boat)
         self.missionaries = missionaries
         self.cannibals = cannibals
         self.boat = boat
 
-    @staticmethod
-    def value_of(state):
-        if not isinstance(state, tuple) or len(state) != 3:
+    @classmethod
+    def value_of(cls, state):
+        if not cls.__is_valid_tuple(state):
             raise ValueError("State must be a tuple with 3 elements.")
         return State(state[0], state[1], state[2])
 
-    def is_state_valid(self):
+    def is_valid(self):
         if contains_negative(self.value):
             return False
         elif self.__has_more_than_one_boat():
@@ -46,3 +50,48 @@ class State:
         """
         return ((self.missionaries == 2 and self.cannibals == 1) or
                 (self.missionaries == 1 and self.cannibals == 0))
+
+    def __add__(self, other):
+        result = self.__operate(other, operator.add)
+        return self.value_of(result)
+
+    def __sub__(self, other):
+        result = self.__operate(other, operator.sub)
+        return self.value_of(result)
+
+    def __operate(self, other, operation):
+        if self.__is_valid_tuple(other):
+            return operate_on_tuples(self.value, other, operation)
+        elif isinstance(other, State):
+            return operate_on_tuples(self.value, other.value, operation)
+        else:
+            raise ValueError(self.__get_invalid_operand_error(other))
+
+    @staticmethod
+    def __is_valid_tuple(other):
+        return isinstance(other, tuple) and len(other) == 3
+
+    @staticmethod
+    def __get_invalid_operand_error(other):
+        return str(other) + " must be an instance of State or a tuple of length 3."
+
+    def __repr__(self):
+        return '<State {}>'.format(self.value)
+
+    def __str__(self):
+        return '<State {}>'.format(self.value)
+
+    def __lt__(self, other):
+        self.__ensure_instance_of_state(other)
+        return self.value < other.value
+
+    def __eq__(self, other):
+        return isinstance(other, State) and self.value == other.value
+
+    def __hash__(self):
+        return hash(self.value)
+
+    @staticmethod
+    def __ensure_instance_of_state(other):
+        if not isinstance(other, State):
+            raise ValueError(str(other) + " must be an instance of State")

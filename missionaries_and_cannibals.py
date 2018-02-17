@@ -22,13 +22,14 @@ from search import Problem
 from state import State
 from state_constants import GOAL_STATE
 from state_constants import INITIAL_STATE
-from util import operate_on_tuples
 
 
 class MissionariesAndCannibals(Problem):
 
     def __init__(self):
-        super().__init__(INITIAL_STATE, GOAL_STATE)
+        initial_state = State.value_of(INITIAL_STATE)
+        goal_state = State.value_of(GOAL_STATE)
+        super().__init__(initial_state, goal_state)
 
     def actions(self, state):
         all_actions = self.get_all_actions()
@@ -52,20 +53,14 @@ class MissionariesAndCannibals(Problem):
         return lambda action: self.is_action_valid(state, action)
 
     def is_action_valid(self, state, action):
-        operation = self.get_operation(state[2])
-        apply_action = self.get_apply_action(state, operation)
+        operate = self.get_operation(state.boat)
+        result = operate(state, action)
 
-        result = apply_action(action)
-
-        return State.value_of(result).is_state_valid()
-
-    @classmethod
-    def get_apply_action(cls, state, operation):
-        return lambda action: operate_on_tuples(state, action, operation)
+        return result.is_valid()
 
     def result(self, state, action):
-        operation = self.get_operation(state[2])
-        return operate_on_tuples(state, action, operation)
+        operate = self.get_operation(state.boat)
+        return operate(state, action)
 
     @staticmethod
     def get_operation(boat):
