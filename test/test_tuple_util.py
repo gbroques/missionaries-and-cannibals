@@ -4,7 +4,7 @@ from tuple_util import add_tuples
 from tuple_util import subtract_tuples
 
 
-class TupleUtilTest(unittest.TestCase):
+class TestTupleUtil(unittest.TestCase):
     def test_add_tuples(self):
         a = (1, 1, 2)
         b = (3, 7, 9)
